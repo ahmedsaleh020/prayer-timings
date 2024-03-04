@@ -27,6 +27,7 @@ const monthOrder = {
 month = monthOrder[month];
 let year = Date(Date).slice(11, 15);
 
+// cities name  to pass it to request and to display it too on the dom
 let citiesNames = {
   Cairo: "القاهرة",
   Alexandria: "الاسكندرية",
@@ -57,6 +58,34 @@ let citiesNames = {
   "South Sinai": "جنوب سيناء",
 };
 
+// 24h system to 12h system
+timesManager = {
+  "00": "12 ص",
+  "01": "1 ص",
+  "02": "2 ص",
+  "03": "3 ص",
+  "04": "4 ص",
+  "05": "5 ص",
+  "06": "6 ص",
+  "07": "7 ص",
+  "08": "8 ص",
+  "09": "9 ص",
+  10: "10 ص",
+  11: "11 ص",
+  12: "12 م",
+  13: "1 م",
+  14: "2 م",
+  15: "3 م",
+  16: "4 م",
+  17: "5 م",
+  18: "6 م",
+  19: "7 م",
+  20: "8 م",
+  21: "9 م",
+  22: "10 م",
+  23: "11 م",
+};
+// create cities options in and insert it to the dropdown
 for (let [key, value] of Object.entries(citiesNames)) {
   const opt = `<option value="${key}">${value}</option>`;
   cities.insertAdjacentHTML("beforeend", opt);
@@ -70,15 +99,27 @@ fetch(
   })
   .then((data) => {
     console.log(data);
-
+    // extract timing data from the returned object
     let timings = data.data[`${--day}`]["timings"];
     for (let [key, value] of Object.entries(timings)) {
       value = value.slice(0, -5);
+      // edit the format of time
+      value =
+        "  " +
+        value.slice(3, 5) +
+        "  " +
+        " : " +
+        timesManager[`${value.slice(0, 2)}`].slice(0, 2) +
+        " " +
+        timesManager[`${value.slice(0, 2)}`].slice(-1);
+      // skip some timings that unnecessary for my application right now
       if (
         ["Sunset", "Imsak", "Midnight", "Firstthird", "Lastthird"].includes(key)
       ) {
         continue;
-      } else {
+      }
+      // translate prayer names to arabic
+      else {
         const keyTranslations = {
           Fajr: "صلاة الفجر",
           Sunrise: "الشروق",
@@ -89,8 +130,8 @@ fetch(
         };
 
         key = keyTranslations[key];
-
-        const html = `<div class="prayer">${`موعد ${key} الساعة ${value}`}</div>`;
+        // display the prayers on dom
+        const html = `<div class="prayer">${`موعد ${key} الساعة  ${value} `}</div>`;
         container.insertAdjacentHTML("beforeend", html);
       }
     }
@@ -110,10 +151,16 @@ cities.addEventListener("change", function () {
     .then((data) => {
       let timings = data.data[`${--day}`]["timings"];
       for (let [key, value] of Object.entries(timings)) {
-        timesManager = {};
-
         value = value.slice(0, -5);
-
+        // edit the format of time
+        value =
+          "  " +
+          value.slice(3, 5) +
+          "  " +
+          " : " +
+          timesManager[`${value.slice(0, 2)}`].slice(0, 2) +
+          " " +
+          timesManager[`${value.slice(0, 2)}`].slice(-1);
         if (
           ["Sunset", "Imsak", "Midnight", "Firstthird", "Lastthird"].includes(
             key

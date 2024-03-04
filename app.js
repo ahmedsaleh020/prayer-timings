@@ -102,7 +102,7 @@ cities.addEventListener("change", function () {
   header.textContent = ` مواقيت الصلاة لمحافظة ` + `${citiesNames[`${city}`]}`;
 
   fetch(
-    `http://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
+    `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
   )
     .then((response) => {
       return response.json();

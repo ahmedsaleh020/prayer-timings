@@ -63,7 +63,7 @@ for (let [key, value] of Object.entries(citiesNames)) {
 }
 
 fetch(
-  `http://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
+  `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
 )
   .then((response) => {
     return response.json();

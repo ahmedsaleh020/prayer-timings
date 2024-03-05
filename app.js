@@ -1,6 +1,6 @@
 let container = document.querySelector(".prayers");
 let cities = document.querySelector("#cities");
-let header = document.querySelector("h1");
+let header = document.querySelector("h2");
 let city = cities.value;
 
 // get the Today's data to use it in requests
@@ -87,8 +87,8 @@ timesManager = {
 };
 // create cities options in and insert it to the dropdown
 for (let [key, value] of Object.entries(citiesNames)) {
-  const opt = `<option value="${key}">${value}</option>`;
-  cities.insertAdjacentHTML("beforeend", opt);
+  const option = `<option value="${key}">${value}</option>`;
+  cities.insertAdjacentHTML("beforeend", option);
 }
 
 fetch(
@@ -114,7 +114,14 @@ fetch(
         timesManager[`${value.slice(0, 2)}`].slice(-1);
       // skip some timings that unnecessary for my application right now
       if (
-        ["Sunset", "Imsak", "Midnight", "Firstthird", "Lastthird"].includes(key)
+        [
+          "Sunset",
+          "Imsak",
+          "Midnight",
+          "Firstthird",
+          "Lastthird",
+          "Sunrise",
+        ].includes(key)
       ) {
         continue;
       }
@@ -122,7 +129,6 @@ fetch(
       else {
         const keyTranslations = {
           Fajr: "صلاة الفجر",
-          Sunrise: "الشروق",
           Dhuhr: "صلاة الظهر",
           Asr: "صلاة العصر",
           Maghrib: "صلاة المغرب",
@@ -131,8 +137,11 @@ fetch(
 
         key = keyTranslations[key];
         // display the prayers on dom
-        const html = `<div class="prayer">${`موعد ${key} الساعة  ${value} `}</div>`;
-        container.insertAdjacentHTML("beforeend", html);
+        const prayer = `<div class="prayer">
+        <h3 class="prayer-name">${key}</h3>
+        <span class="prayer-time">${value}</span>
+        </div>`;
+        container.insertAdjacentHTML("beforeend", prayer);
       }
     }
   });
@@ -162,15 +171,19 @@ cities.addEventListener("change", function () {
           " " +
           timesManager[`${value.slice(0, 2)}`].slice(-1);
         if (
-          ["Sunset", "Imsak", "Midnight", "Firstthird", "Lastthird"].includes(
-            key
-          )
+          [
+            "Sunset",
+            "Imsak",
+            "Midnight",
+            "Firstthird",
+            "Lastthird",
+            "Sunrise",
+          ].includes(key)
         ) {
           continue;
         } else {
           const keyTranslations = {
             Fajr: "صلاة الفجر",
-            Sunrise: "الشروق",
             Dhuhr: "صلاة الظهر",
             Asr: "صلاة العصر",
             Maghrib: "صلاة المغرب",
@@ -179,8 +192,11 @@ cities.addEventListener("change", function () {
 
           key = keyTranslations[key];
 
-          const html = `<div class="prayer">${`موعد ${key} الساعة ${value}`}</div>`;
-          container.insertAdjacentHTML("beforeend", html);
+          const prayer = `<div class="prayer">
+          <h3 class="prayer-name">${key}</h3>
+          <span class="prayer-time">${value}</span>
+          </div>`;
+          container.insertAdjacentHTML("beforeend", prayer);
         }
       }
     });

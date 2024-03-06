@@ -2,6 +2,7 @@ let container = document.querySelector(".prayers");
 let cities = document.querySelector("#cities");
 let header = document.querySelector("h2");
 let head = document.querySelector(".head");
+let message = document.querySelector(".message");
 let city;
 let timings;
 // get the Today's data to use it in requests
@@ -132,8 +133,8 @@ function showTimings() {
         }
       }
     })
-    .catch((error) => {
-      console.error(error);
+    .catch(() => {
+      message.classList.add("show-message");
     });
 }
 showTimings();

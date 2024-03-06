@@ -13,6 +13,39 @@ body {
   font-family: "Noto Sans Arabic", sans-serif;
   background-color: #294b29;
 }
+.message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--main-color);
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: all 0.1s linear;
+  transform: scale(0);
+}
+.show-message {
+  transform: scale(1);
+}
+.message h3 {
+  color: var(--secondry-color);
+  font-size: 30px;
+}
+.message .icon {
+  width: 180px;
+  height: 180px;
+}
+.message p {
+  font-size: 25px;
+  font-weight: 400;
+  color: var(--secondry-color);
+  text-align: center;
+}
+
 .loader::before {
   content: "";
   position: absolute;

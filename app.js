@@ -73,6 +73,14 @@ timesManager = {
   22: "10 م",
   23: "11 م",
 };
+let unnecessaryTimmings = [
+  "Sunset",
+  "Imsak",
+  "Midnight",
+  "Firstthird",
+  "Lastthird",
+  "Sunrise",
+];
 // create cities options in and insert it to the dropdown
 for (let [key, value] of Object.entries(citiesNames)) {
   const option = `<option value="${key}">${value}</option>`;
@@ -106,16 +114,7 @@ function showTimings() {
           " " +
           timesManager[`${value.slice(0, 2)}`].slice(-1);
         // skip some timings that unnecessary for my application right now
-        if (
-          [
-            "Sunset",
-            "Imsak",
-            "Midnight",
-            "Firstthird",
-            "Lastthird",
-            "Sunrise",
-          ].includes(key)
-        ) {
+        if (unnecessaryTimmings.includes(key)) {
           continue;
         }
         // translate prayer names to arabic

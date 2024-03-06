@@ -38,7 +38,6 @@ let citiesNames = {
   "North Sinai": "شمال سيناء",
   "South Sinai": "جنوب سيناء",
 };
-
 // translator object
 const keyTranslations = {
   Fajr: "صلاة الفجر",
@@ -47,7 +46,6 @@ const keyTranslations = {
   Maghrib: "صلاة المغرب",
   Isha: "صلاة العشاء",
 };
-
 // 24h system to 12h system
 timesManager = {
   "00": "12 ص",
@@ -80,70 +78,12 @@ for (let [key, value] of Object.entries(citiesNames)) {
   const option = `<option value="${key}">${value}</option>`;
   cities.insertAdjacentHTML("beforeend", option);
 }
-
-city = cities.value;
-header.innerHTML = `مواقيت الصلاة لمحافظة <span>${
-  citiesNames[`${city}`]
-}</span>`;
-
-fetch(
-  `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
-)
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
-    // extract timing data from the returned object
-    timings = data.data[`${day - 1}`]["timings"];
-    for (let [key, value] of Object.entries(timings)) {
-      value = value.slice(0, -5);
-      // edit the format of time
-      value =
-        "  " +
-        value.slice(3, 5) +
-        "  " +
-        " : " +
-        timesManager[`${value.slice(0, 2)}`].slice(0, 2) +
-        " " +
-        timesManager[`${value.slice(0, 2)}`].slice(-1);
-      // skip some timings that unnecessary for my application right now
-      if (
-        [
-          "Sunset",
-          "Imsak",
-          "Midnight",
-          "Firstthird",
-          "Lastthird",
-          "Sunrise",
-        ].includes(key)
-      ) {
-        continue;
-      }
-      // translate prayer names to arabic
-      else {
-        key = keyTranslations[key];
-        // display the prayers on dom
-        const prayer = `<div class="prayer">
-          <h3 class="prayer-name">${key}</h3>
-          <span class="prayer-time">${value}</span>
-          </div>`;
-        container.insertAdjacentHTML("beforeend", prayer);
-      }
-    }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-
-cities.addEventListener("change", function () {
+function showTimings() {
   container.innerHTML = "";
   city = cities.value;
-
   header.innerHTML = `مواقيت الصلاة لمحافظة <span>${
     citiesNames[`${city}`]
   }</span>`;
-
   fetch(
     `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
   )
@@ -151,10 +91,12 @@ cities.addEventListener("change", function () {
       return response.json();
     })
     .then((data) => {
+      console.log(data);
+      // extract timing data from the returned object
       timings = data.data[`${day - 1}`]["timings"];
       for (let [key, value] of Object.entries(timings)) {
         value = value.slice(0, -5);
-        // re-formatting the time
+        // edit the format of time
         value =
           "  " +
           value.slice(3, 5) +
@@ -163,6 +105,7 @@ cities.addEventListener("change", function () {
           timesManager[`${value.slice(0, 2)}`].slice(0, 2) +
           " " +
           timesManager[`${value.slice(0, 2)}`].slice(-1);
+        // skip some timings that unnecessary for my application right now
         if (
           [
             "Sunset",
@@ -174,13 +117,15 @@ cities.addEventListener("change", function () {
           ].includes(key)
         ) {
           continue;
-        } else {
+        }
+        // translate prayer names to arabic
+        else {
           key = keyTranslations[key];
-          // create a div for each prayer and insert it to the dom
+          // display the prayers on dom
           const prayer = `<div class="prayer">
-          <h3 class="prayer-name">${key}</h3>
-          <span class="prayer-time">${value}</span>
-          </div>`;
+            <h3 class="prayer-name">${key}</h3>
+            <span class="prayer-time">${value}</span>
+            </div>`;
           container.insertAdjacentHTML("beforeend", prayer);
         }
       }
@@ -188,4 +133,6 @@ cities.addEventListener("change", function () {
     .catch((error) => {
       console.error(error);
     });
-});
+}
+showTimings();
+cities.addEventListener("change", showTimings);

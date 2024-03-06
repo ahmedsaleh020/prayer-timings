@@ -35,7 +35,6 @@ h1 {
   color: var(--secondry-color);
   font-size: 40px;
 }
-
 .head {
   text-align: center;
   margin-bottom: 10px;
@@ -51,7 +50,6 @@ h2 {
     font-size: 20px;
   }
 }
-
 span {
   color: var(--secondry-color);
   font-size: 25px;
@@ -76,7 +74,6 @@ select option {
   background-color: rgb(65, 60, 60);
   font-size: 25px;
 }
-
 select option:hover,
 option:checked {
   background-color: var(--main-color);
@@ -98,7 +95,6 @@ option:checked {
   align-items: center;
   flex-direction: column;
 }
-
 .prayer-name {
   color: var(--main-color);
   font-size: 35px;

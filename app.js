@@ -5,29 +5,9 @@ let head = document.querySelector(".head");
 let city;
 let timings;
 // get the Today's data to use it in requests
-let day =
-  Date(Date).slice(8, 10) < 10
-    ? Date(Date).slice(8, 10).slice(1)
-    : Date(Date).slice(8, 10);
-
-let month = Date(Date).slice(4, 7);
-const monthOrder = {
-  Jan: 1,
-  Feb: 2,
-  Mar: 3,
-  Apr: 4,
-  May: 5,
-  Jun: 6,
-  Jul: 7,
-  Aug: 8,
-  Sep: 9,
-  Oct: 10,
-  Nov: 11,
-  Dec: 12,
-};
-month = monthOrder[month];
-let year = Date(Date).slice(11, 15);
-
+let day = new Date().getDate();
+let month = new Date().getMonth() + 1;
+let year = new Date().getYear();
 // cities name  to pass it with the request
 let citiesNames = {
   Cairo: "القاهرة",

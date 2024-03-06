@@ -45,52 +45,40 @@ body {
   color: var(--secondry-color);
   text-align: center;
 }
-
-.loader::before {
-  content: "";
-  position: absolute;
-  width: 100px;
-  height: 20px;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px var(--secondry-color) solid;
-  border-right: none;
-  animation: motion 0.1s linear infinite;
-  display: block;
-}
-
-/* .show-Loader::before{
-  display: block;
-} */
-@keyframes motion {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
 .header {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   column-gap: 10px;
 }
-
 img.icon {
   width: 80px;
   height: 80px;
 }
-
+h4 {
+  color: var(--color);
+  font-size: 20px;
+}
+.dates {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  column-gap: 50px;
+}
+@media (max-width: 760px) {
+  .dates {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.dates p {
+  color: var(--color);
+}
 hr {
   border-color: var(--color);
   border-width: 3px;
-  margin: 10px 0;
+  margin: 15px 0;
 }
-
 h1 {
   color: var(--secondry-color);
   font-size: 40px;
@@ -141,9 +129,33 @@ option:checked {
 }
 .prayers {
   display: grid;
+  position: relative;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 25px;
   justify-items: center;
+  min-height: 250px;
+}
+.loader::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px var(--secondry-color) solid;
+  border-right: none;
+  animation: motion 0.1s linear infinite;
+  display: block;
+}
+@keyframes motion {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 .prayer {
   background-color: var(--color);
@@ -155,6 +167,11 @@ option:checked {
   align-items: center;
   flex-direction: column;
 }
+.active-prayer {
+  background-color: var(--secondry-color);
+  border: 3px solid var(--color);
+  box-shadow: 0px 3px 6px 1px black;
+}
 .prayer-name {
   color: var(--main-color);
   font-size: 35px;
@@ -162,4 +179,7 @@ option:checked {
 .prayer-time {
   color: var(--secondry-color);
   font-size: 30px;
+}
+.active-time {
+  color: #263f00;
 }

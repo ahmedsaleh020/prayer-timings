@@ -92,6 +92,8 @@ function showTimings() {
   header.innerHTML = `مواقيت الصلاة لمحافظة <span>${
     citiesNames[`${city}`]
   }</span>`;
+  // add loader
+  container.classList.add("loader");
   fetch(
     `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
   )
@@ -99,7 +101,6 @@ function showTimings() {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       // extract timing data from the returned object
       timings = data.data[`${day - 1}`]["timings"];
       for (let [key, value] of Object.entries(timings)) {
@@ -126,6 +127,8 @@ function showTimings() {
             <span class="prayer-time">${value}</span>
             </div>`;
           container.insertAdjacentHTML("beforeend", prayer);
+          //remove loader
+          container.classList.remove("loader");
         }
       }
     })

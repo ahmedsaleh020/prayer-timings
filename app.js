@@ -1,8 +1,9 @@
 let container = document.querySelector(".prayers");
 let cities = document.querySelector("#cities");
 let header = document.querySelector("h2");
-let city = cities.value;
-
+let head = document.querySelector(".head");
+let city;
+let timings;
 // get the Today's data to use it in requests
 let day =
   Date(Date).slice(8, 10) < 10
@@ -27,7 +28,7 @@ const monthOrder = {
 month = monthOrder[month];
 let year = Date(Date).slice(11, 15);
 
-// cities name  to pass it to request and to display it too on the dom
+// cities name  to pass it with the request
 let citiesNames = {
   Cairo: "القاهرة",
   Alexandria: "الاسكندرية",
@@ -56,6 +57,15 @@ let citiesNames = {
   Matrouh: "مطروح",
   "North Sinai": "شمال سيناء",
   "South Sinai": "جنوب سيناء",
+};
+
+// translator object
+const keyTranslations = {
+  Fajr: "صلاة الفجر",
+  Dhuhr: "صلاة الظهر",
+  Asr: "صلاة العصر",
+  Maghrib: "صلاة المغرب",
+  Isha: "صلاة العشاء",
 };
 
 // 24h system to 12h system
@@ -91,6 +101,11 @@ for (let [key, value] of Object.entries(citiesNames)) {
   cities.insertAdjacentHTML("beforeend", option);
 }
 
+city = cities.value;
+header.innerHTML = `مواقيت الصلاة لمحافظة <span>${
+  citiesNames[`${city}`]
+}</span>`;
+
 fetch(
   `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
 )
@@ -100,7 +115,7 @@ fetch(
   .then((data) => {
     console.log(data);
     // extract timing data from the returned object
-    let timings = data.data[`${--day}`]["timings"];
+    timings = data.data[`${day - 1}`]["timings"];
     for (let [key, value] of Object.entries(timings)) {
       value = value.slice(0, -5);
       // edit the format of time
@@ -127,29 +142,27 @@ fetch(
       }
       // translate prayer names to arabic
       else {
-        const keyTranslations = {
-          Fajr: "صلاة الفجر",
-          Dhuhr: "صلاة الظهر",
-          Asr: "صلاة العصر",
-          Maghrib: "صلاة المغرب",
-          Isha: "صلاة العشاء",
-        };
-
         key = keyTranslations[key];
         // display the prayers on dom
         const prayer = `<div class="prayer">
-        <h3 class="prayer-name">${key}</h3>
-        <span class="prayer-time">${value}</span>
-        </div>`;
+          <h3 class="prayer-name">${key}</h3>
+          <span class="prayer-time">${value}</span>
+          </div>`;
         container.insertAdjacentHTML("beforeend", prayer);
       }
     }
+  })
+  .catch((error) => {
+    console.error(error);
   });
 
 cities.addEventListener("change", function () {
   container.innerHTML = "";
   city = cities.value;
-  header.textContent = ` مواقيت الصلاة لمحافظة ` + `${citiesNames[`${city}`]}`;
+
+  header.innerHTML = `مواقيت الصلاة لمحافظة <span>${
+    citiesNames[`${city}`]
+  }</span>`;
 
   fetch(
     `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Egypt&method=5`
@@ -158,10 +171,10 @@ cities.addEventListener("change", function () {
       return response.json();
     })
     .then((data) => {
-      let timings = data.data[`${--day}`]["timings"];
+      timings = data.data[`${day - 1}`]["timings"];
       for (let [key, value] of Object.entries(timings)) {
         value = value.slice(0, -5);
-        // edit the format of time
+        // re-formatting the time
         value =
           "  " +
           value.slice(3, 5) +
@@ -182,16 +195,8 @@ cities.addEventListener("change", function () {
         ) {
           continue;
         } else {
-          const keyTranslations = {
-            Fajr: "صلاة الفجر",
-            Dhuhr: "صلاة الظهر",
-            Asr: "صلاة العصر",
-            Maghrib: "صلاة المغرب",
-            Isha: "صلاة العشاء",
-          };
-
           key = keyTranslations[key];
-
+          // create a div for each prayer and insert it to the dom
           const prayer = `<div class="prayer">
           <h3 class="prayer-name">${key}</h3>
           <span class="prayer-time">${value}</span>
@@ -199,5 +204,8 @@ cities.addEventListener("change", function () {
           container.insertAdjacentHTML("beforeend", prayer);
         }
       }
+    })
+    .catch((error) => {
+      console.error(error);
     });
 });

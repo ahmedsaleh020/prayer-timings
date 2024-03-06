@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap");
-
 * {
   padding: 0;
   margin: 0;
@@ -43,7 +42,7 @@ h1 {
 }
 h2 {
   text-align: center;
-  color: var(--secondry-color);
+  color: var(--color);
 }
 @media (max-width: 760px) {
   h2,
@@ -84,14 +83,10 @@ option:checked {
   color: var(--secondry-color);
 }
 .prayers {
-  display: flex;
-  padding: 10px;
-  row-gap: 10px;
-  column-gap: 10px;
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  justify-items: center;
 }
 .prayer {
   background-color: var(--color);
@@ -106,9 +101,9 @@ option:checked {
 
 .prayer-name {
   color: var(--main-color);
-  font-size: 40px;
+  font-size: 35px;
 }
 .prayer-time {
   color: var(--secondry-color);
-  font-size: 35px;
+  font-size: 30px;
 }

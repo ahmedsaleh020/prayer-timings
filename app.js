@@ -3,10 +3,13 @@ let cities = document.querySelector("#cities");
 let header = document.querySelector("h2");
 let head = document.querySelector(".head");
 let message = document.querySelector(".message");
-let dateHijri = document.querySelector(".date-hijri")
-let dateGregorian = document.querySelector(".date-gregorian")
+let prayerCard;
+let dateHijri = document.querySelector(".date-hijri");
+let dateGregorian = document.querySelector(".date-gregorian");
 let city;
 let timings;
+let newKey;
+let keys = [];
 // get the Today's data to use it in requests
 let day = new Date().getDate();
 let month = new Date().getMonth() + 1;
@@ -108,6 +111,7 @@ function showTimings() {
       // extract timing data from the returned object
       timings = data.data[`${day - 1}`]["timings"];
       for (let [key, value] of Object.entries(timings)) {
+        console.log(key);
         value = value.slice(0, -5);
         // edit the format of time
         value =
@@ -120,21 +124,35 @@ function showTimings() {
           timesManager[`${value.slice(0, 2)}`].slice(-1);
 
         // get date in hijri and gregorian form and display it
-        dateGregorian.textContent=`${data.data[`${day - 1}`]['date']['gregorian']['date']}`
-        dateHijri.textContent = `${data.data[`${day - 1}`]['date']['hijri']['date']}`
+        dateGregorian.textContent = `${
+          data.data[`${day - 1}`]["date"]["gregorian"]["date"]
+        }`;
+        dateHijri.textContent = `${
+          data.data[`${day - 1}`]["date"]["hijri"]["date"]
+        }`;
         // skip some timings that unnecessary for my application right now
         if (unnecessaryTimmings.includes(key)) {
           continue;
         }
         // translate prayer names to arabic
         else {
-          key = keyTranslations[key];
+          newKey = keyTranslations[key];
+          keys.push(key);
           // display the prayers on dom
           const prayer = `<div class="prayer">
-            <h3 class="prayer-name">${key}</h3>
+            <h3 class="prayer-name">${newKey}</h3>
             <span class="prayer-time">${value}</span>
             </div>`;
           container.insertAdjacentHTML("beforeend", prayer);
+          // fetch the prayers cards and set background imgs to it
+          prayerCard = document.querySelectorAll(".prayer");
+          let i = 0;
+          prayerCard.forEach((card) => {
+            card.style.backgroundImage = `url("./images/${keys[i]}.jpeg")`;
+            i++;
+          });
+          console.log(newKey);
+
           //remove loader
           container.classList.remove("loader");
         }

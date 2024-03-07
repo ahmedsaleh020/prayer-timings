@@ -134,6 +134,7 @@ option:checked {
   gap: 25px;
   justify-items: center;
   min-height: 250px;
+  padding: 20px;
 }
 .loader::before {
   content: "";

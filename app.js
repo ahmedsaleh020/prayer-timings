@@ -111,7 +111,6 @@ function showTimings() {
       // extract timing data from the returned object
       timings = data.data[`${day - 1}`]["timings"];
       for (let [key, value] of Object.entries(timings)) {
-        console.log(key);
         value = value.slice(0, -5);
         // edit the format of time
         value =
@@ -151,7 +150,6 @@ function showTimings() {
             card.style.backgroundImage = `url("./images/${keys[i]}.jpeg")`;
             i++;
           });
-          console.log(newKey);
 
           //remove loader
           container.classList.remove("loader");

@@ -2,6 +2,8 @@
 
 This web application allows users to view prayer timings for a specific location. It provides the current date, Hijri date, and prayer times (Fajr, Dhuhr, Asr, Maghrib, Isha) for that location.
 
+## Live Demo:
+[Egyptian Prayer Timings](https://ahmedsaleh020.github.io/prayer-timings/)
 ## Features:
 
 * Displays current date and Hijri date.
